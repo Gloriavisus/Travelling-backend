@@ -7,17 +7,30 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
+
+  hobbies: {
+    type: String,
+  },
+
   password: {
     type: String,
     required: true
   },
-}, {
-  timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
+
+  preference: {
+    type: String,
+  },
+
+  description: {
+    type: String,
+  },
+
+  image:{
+    type: String,
   },
 });
 
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
