@@ -8,7 +8,7 @@ const userSchema = new Schema({
     unique: true
   },
 
-  hobbies: {
+  hobbies:{
     type: String,
   },
 

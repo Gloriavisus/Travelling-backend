@@ -69,4 +69,17 @@ router.post('/logout', isLoggedIn(), (req, res, next) => {
   return res.status(204).send();
 });
 
+router.put('/myprofile/edit',isLoggedIn(), async (req,res,next)=>{
+  const {hobbies,description} = req.body
+  const id = req.session.currentUser._id;
+  try{
+    const updatedUser = await User.findByIdAndUpdate(id , {hobbies,description}, {new: true})
+    req.session.currentUser = updatedUser;
+    res.status(200).json(updatedUser);
+  }catch(error){
+    next(error)
+  }
+
+})
+
 module.exports = router;
