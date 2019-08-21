@@ -8,15 +8,18 @@ const tripSchema = new Schema({
     type: ObjectId,
     ref: 'User'
   },
-
-  country: {
-    type: ObjectId,
-    ref: 'Country'
-  },
-
-  description: {
+  salida:{
     type: String,
   },
+  llegada:{
+    type: String,
+  },
+  precio:{
+    type: String,
+  },
+  duration:{
+    type: String,
+  }    
 });
 
 const Trip = mongoose.model('Trip', tripSchema);

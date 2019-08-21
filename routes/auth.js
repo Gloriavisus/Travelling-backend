@@ -14,8 +14,9 @@ const {
   validationLoggin
 } = require('../helpers/middlewares');
 
-router.get('/me', isLoggedIn(), (req, res, next) => {
-  res.json(req.session.currentUser);
+router.get('/me', isLoggedIn(), async (req, res, next) => {
+  const userInfo = await User.findById(req.session.currentUser._id).populate("trips")
+  res.json(userInfo);
 });
 
 router.post(
