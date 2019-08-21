@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req,res,next) =>{
   const { id } = req.params;
   try {
-    const specificCountry = await Country.findById(id)
+    const specificCountry = await Country.findById(id).populate("users")
     res.status(200).json(specificCountry);
   } catch(error){
     next(error);
@@ -33,6 +33,29 @@ router.post('/new', async (req, res, next)=> {
   }
 });
 
+//update favourites in country
+router.put('/country/:id/preference', async (req, res, next)=>{
+
+  try {
+    const {id}= req.params;
+    const {_id} = req.session.currentUser;
+    const country = await Country.findById(id)
+    const checkCountyIncludes = await country.users.some(user => {
+      return user.equals(_id);
+  });
+      if(checkCountyIncludes){
+        res.json({message: "tu estas aqui"})
+      } else {
+        const updatePreferences = await Country.findByIdAndUpdate(id, {$push:{users: _id}}, {new: true});
+        res.status(200).json(updatePreferences);
+      }
+    
+  } catch (error){
+    next(error);
+  }
+});
+
+//update with country code
 router.put('/:id/update', async (req, res, next)=>{
   const {id}= req.params;
   const countryUpdated = req.body;

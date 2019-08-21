@@ -17,10 +17,6 @@ const userSchema = new Schema({
     required: true
   },
 
-  preference: {
-    type: String,
-  },
-
   description: {
     type: String,
   },
