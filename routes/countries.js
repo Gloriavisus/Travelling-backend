@@ -40,10 +40,10 @@ router.put('/country/:id/preference', async (req, res, next)=>{
     const {id}= req.params;
     const {_id} = req.session.currentUser;
     const country = await Country.findById(id)
-    const checkCountyIncludes = await country.users.some(user => {
+    const checkCountryIncludes = await country.users.some(user => {
       return user.equals(_id);
   });
-      if(checkCountyIncludes){
+      if(checkCountryIncludes){
         res.json({message: "tu estas aqui"})
       } else {
         const updatePreferences = await Country.findByIdAndUpdate(id, {$push:{users: _id}}, {new: true});
