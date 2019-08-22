@@ -1,4 +1,16 @@
-[
+  'use strict';
+  
+  const mongoose = require('mongoose');
+  require ('dotenv').config();
+  
+  mongoose.connect(process.env.MONGODB_URI, {
+    keepAlive: true,
+    useNewUrlParser: true,
+    reconnectTries: Number.MAX_VALUE
+  });
+  const Country = require('../models/Country.js');
+
+const seeds = [
   {
     "name": "Republica Checa",
     "image":"https://viajes.nationalgeographic.com.es/medio/2018/10/30/torre-de-la-polvora_105a71e8_1600x1065.jpg",
@@ -55,3 +67,12 @@
     "description": "Cabo Verde, cuyo nombre oficial es República de Cabo Verde,z es un estado soberano insular de África, situado en el océano Atlántico, más concretamente en el archipiélago volcánico macaronésico de Cabo Verde, frente a las costas senegalesas. Su forma de gobierno es la república semipresidencialista y su territorio está organizado en 22 concelhos o municipios. Su capital y ciudad más poblada es Praia. El nombre del archipiélago proviene de la península de Cabo Verde, el extremo más occidental del continente de África, cerca del cual se halla la ciudad de Dakar (Senegal). Su lengua oficial es el portugués y el país es miembro de la Comunidad de Países de Lengua Portuguesa.Praia es también la sede de las instituciones más importantes de la nación, casi todas en el barrio de Platô o Plateau. Hermanada con Las Palmas de Gran Canaria y Corvera de Asturias, cuando visites Cabo Verde y vayas a Praia no te pierdas el Palacio Presidencial, el Antiguo Ayuntamiento o Câmara Municipal, la Iglesia de Nuestra Señora de Gracia o Igreja Nossa Senhora da Graça, el Museo Etnográfico, el Monumento al explorador Diego Gómez o la coqueta capilla de San Antonio. Todo son cosas que tienes que ver en Cabo Verde."
   }
 ]
+Country.deleteMany({})
+.then (() =>{
+  Country.create(seeds).then((country)=>{
+    console.log(country);
+    mongoose.connection.close();
+  }).catch((error) =>{
+    console.log(error);
+  });
+});
